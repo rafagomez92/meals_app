@@ -10,7 +10,8 @@ enum Filter {
 }
 
 class FiltersScren extends StatefulWidget {
-  const FiltersScren({super.key});
+  final Map<Filter, bool> currentFilters;
+  const FiltersScren({super.key, required this.currentFilters});
 
   @override
   State<FiltersScren> createState() => _FiltersScrenState();
@@ -21,6 +22,15 @@ class _FiltersScrenState extends State<FiltersScren> {
   var _lactoseFreeFilterSet = false;
   var _vegetarianFilterSet = false;
   var _veganFilterSet = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _glutenFreeFilterSet = widget.currentFilters[Filter.glutenFree]!;
+    _lactoseFreeFilterSet = widget.currentFilters[Filter.lactoseFree]!;
+    _vegetarianFilterSet = widget.currentFilters[Filter.vegetarian]!;
+    _veganFilterSet = widget.currentFilters[Filter.vegan]!;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,30 +74,6 @@ class _FiltersScrenState extends State<FiltersScren> {
               ),
               subtitle: Text(
                 "Only include gluten-free meals.",
-                style: Theme.of(context)
-                    .textTheme
-                    .labelMedium!
-                    .copyWith(color: Theme.of(context).colorScheme.onSurface),
-              ),
-              activeColor: Theme.of(context).colorScheme.tertiary,
-              contentPadding: const EdgeInsets.only(left: 34, right: 22),
-            ),
-            SwitchListTile(
-              value: _lactoseFreeFilterSet,
-              onChanged: (isChecked) {
-                setState(() {
-                  _lactoseFreeFilterSet = isChecked;
-                });
-              },
-              title: Text(
-                "Lactose-free",
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(color: Theme.of(context).colorScheme.onSurface),
-              ),
-              subtitle: Text(
-                "Only include lactose-free meals.",
                 style: Theme.of(context)
                     .textTheme
                     .labelMedium!
